@@ -1,1 +1,1 @@
-# dotnet-rds-demo
+# dotnet-rds-proxy-demo
