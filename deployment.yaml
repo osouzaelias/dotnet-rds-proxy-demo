@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rdsproxydemo
+  name: rdsproxydemo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rdsproxydemo
+  template:
+    metadata:
+      labels:
+        app: rdsproxydemo
+    spec:
+      containers:
+        - name: rdsproxydemo
+          env:
+            - name: DB_HOST
+              value: ""
+            - name: DB_USER
+              value: ""
+            - name: DB_DATABASE
+              value: ""  
+          imagePullPolicy: Always
+          image: "osouzaelias/rdsproxydemo:0.1.5"
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              port: 80
+              path: /health
+            initialDelaySeconds: 15
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              port: 80
+              path: /health
+            initialDelaySeconds: 15
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 20
